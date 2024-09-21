@@ -14,15 +14,13 @@ def obter_previsao(cidade):
     if response.status_code == 200:
         data = response.json()
         cidade = data["name"]
-        temp_atual = data["main"]["temp"]
+        temp_atual = int(data["main"]["temp"])
         descricao = data["weather"][0]["description"]
 
         print(f"Cidade: {cidade}")
-        print(f"Temperatura: {int(temp_atual)}º")
+        print(f"Temperatura: {temp_atual}º")
         print(f"Condições: {descricao.capitalize()}")
+        return f"Previsão do tempo para {cidade}: {temp_atual}º, {descricao}."
     else:
         print("Cidade não encontrada ou erro na conexão.")
-
-if __name__ == '__main__':
-    cidade = input("Digite o nome da cidade: ")
-    obter_previsao(cidade)
+        return "Cidade não encontrada ou erro na conexão."
