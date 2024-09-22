@@ -1,17 +1,24 @@
 import tkinter as tk
 from tkinter import ttk
-from previsao import obter_previsao
+from analise import analisa_dia
 
 
 def mostrar_previsao():
     cidade = entry_cidade.get()
-    resultado = obter_previsao(cidade)
-    label_result.config(text=resultado)
+    resultado = analisa_dia(cidade)
+
+    res_final = ""
+    if resultado:
+        for res in resultado:
+            res_final += res + "\n"
+        label_result.config(text=res_final)
+    else:
+        label_result.config(text="Erro ao obter a previsão.")
 
 
 janela = tk.Tk()
 janela.title("Previsão do Tempo")
-janela.geometry("400x300")
+janela.geometry("1024x900")
 janela.config(bg="#87CEEB")
 
 label_titulo = ttk.Label(

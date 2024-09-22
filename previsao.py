@@ -1,5 +1,6 @@
 import os
 import requests
+import datetime
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -7,21 +8,47 @@ load_dotenv()
 API_KEY = os.getenv("API_KEY")
 
 
-def obter_previsao(cidade):
+def obter_coords(cidade):
     url = f"http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}&units=metric&lang=pt_br"
 
     response = requests.get(url)
 
     if response.status_code == 200:
         data = response.json()
-        cidade = data["name"]
-        temp_atual = int(data["main"]["temp"])
-        descricao = data["weather"][0]["description"].capitalize()
+        lat = data["coord"]["lat"]
+        lon = data["coord"]["lon"]
 
-        print(f"Cidade: {cidade}")
-        print(f"Temperatura: {temp_atual}º")
-        print(f"Condições: {descricao.capitalize()}")
-        return f"Previsão do tempo para {cidade}:\n{temp_atual}º\n{descricao}"
+        return lat, lon
     else:
         print("Cidade não encontrada ou erro na conexão.")
         return "Cidade não encontrada ou erro na conexão."
+
+
+def buscar_previsao(cidade):
+    lat, lon = obter_coords(cidade)
+
+    url = f"https://api.openweathermap.org/data/2.5/forecast?lat={lat}&lon={lon}&appid={API_KEY}&units=metric&lang=pt_br"
+    response = requests.get(url)
+    if response.status_code == 200:
+        data = response.json()
+        previsao = data["list"]
+
+        resultado = []
+        dia_atual = []
+        i = 0
+        for dia in previsao:
+            temp = dia["main"]["temp"]
+            t_min = dia["main"]["temp_min"]
+            t_max = dia["main"]["temp_max"]
+            date = dia["dt"]
+            descricao = dia["weather"][0]["description"]
+            dia_atual.append({"data": date, "temp": temp, "temp_min": t_min, "temp_max": t_max, "clima": descricao})
+            i += 1
+            if i == 8:
+                i = 0
+                resultado.append(dia_atual)
+                dia_atual = []
+        return resultado
+    else:
+        return None
+
