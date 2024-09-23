@@ -23,6 +23,20 @@ def obter_coords(cidade):
         print("Cidade não encontrada ou erro na conexão.")
         return "Cidade não encontrada ou erro na conexão."
 
+def buscar_previsao_atual(cidade):
+    url = f"http://api.openweathermap.org/data/2.5/weather?q={cidade}&appid={API_KEY}&units=metric&lang=pt_br"
+
+    response = requests.get(url)
+
+    if response.status_code == 200:
+        data = response.json()
+        temp = int(data["main"]["temp"])
+        clima = data["weather"][0]["description"].capitalize()
+
+        return f"{temp}ºC\nHoje\n{clima}"
+    else:
+        return "Cidade não encontrada ou erro na conexão."
+
 
 def buscar_previsao(cidade):
     lat, lon = obter_coords(cidade)

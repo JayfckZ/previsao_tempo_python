@@ -1,16 +1,18 @@
 import tkinter as tk
 from tkinter import ttk
+from previsao import buscar_previsao_atual
 from analise import analisa_dia
 
 
 def mostrar_previsao():
     cidade = entry_cidade.get()
-    resultado = analisa_dia(cidade)
+    dia_atual = buscar_previsao_atual(cidade)
+    proximos_dias = analisa_dia(cidade)
 
-    res_final = ""
-    if resultado:
-        for res in resultado:
-            res_final += res + "\n"
+    res_final = dia_atual + "\n\n"
+    if proximos_dias:
+        for dia in proximos_dias:
+            res_final += dia + "\n\n"
         label_result.config(text=res_final)
     else:
         label_result.config(text="Erro ao obter a previsão.")
