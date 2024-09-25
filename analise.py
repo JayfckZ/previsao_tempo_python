@@ -32,9 +32,10 @@ def analisa_dia(cidade):
             clima = "Clima misto"
 
         data = datetime.datetime.fromtimestamp(momento["data"]).strftime("%d/%m/%Y")
+        icone = momento["icone"]
 
         resultado.append(
-            f"{temp}ºC\n{data}\nMin: {temp_min}ºC - Max: {temp_max}ºC\n{clima}"
+            {"temp": temp, "data": data, "temp_min": temp_min, "temp_max": temp_max, "clima": clima, "icone": icone}
         )
 
     return resultado
