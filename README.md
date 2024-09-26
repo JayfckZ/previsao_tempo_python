@@ -23,14 +23,14 @@
 1. **Clone o repositório:**
    ```bash
    git clone https://github.com/JayfckZ/previsao_tempo_python
-   cd weather-now
+   cd previsao_tempo_python
    ```
 
 2. **Crie um ambiente virtual**
     ```bash
     python -m venv venv
     source venv/bin/activate
-    # No Windows use `venv\\Scripts\\activate`
+    # No Windows use `venv/Scripts/activate`
     ```
 
 3. **Instale as dependências**
