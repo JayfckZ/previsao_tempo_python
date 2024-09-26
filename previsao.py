@@ -32,7 +32,7 @@ def buscar_previsao_atual(cidade):
         data = response.json()
         temp = int(data["main"]["temp"])
         clima = data["weather"][0]["description"].capitalize()
-        icone = data["weather"][0]["icon"]
+        icone = data["weather"][0]["icon"].replace('n', 'd')
         return {"temp": temp, "clima": clima, "icone": icone}
     else:
         return "Cidade não encontrada ou erro na conexão."
@@ -56,7 +56,7 @@ def buscar_previsao(cidade):
             t_max = dia["main"]["temp_max"]
             date = dia["dt"]
             descricao = dia["weather"][0]["description"]
-            icone = dia["weather"][0]["icon"]
+            icone = dia["weather"][0]["icon"].replace('n', 'd')
             dia_atual.append({"data": date, "temp": temp, "temp_min": t_min, "temp_max": t_max, "clima": descricao, "icone": icone})
             i += 1
             if i == 8:
